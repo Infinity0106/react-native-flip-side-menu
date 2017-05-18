@@ -6,7 +6,8 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native';
 
 export default class SideMenu3D extends Component{
@@ -73,10 +74,18 @@ export default class SideMenu3D extends Component{
         <View style={[styles.full]}>
         <Animated.View style={[styles.full,{
           transform: [
-            { perspective: this.state.animPerspective.interpolate({inputRange:[0,1],outputRange:[1,-850]}) },
-            { translateX: this.state.animTranslateX.interpolate({inputRange:[0,1],outputRange:[0,Dimensions.get("window").width*.3]}) },
-            { rotateY: this.state.animRotateY.interpolate({inputRange:[0,.3,1],outputRange:["0deg","0deg","60deg"]}) },
-            { scale: this.state.animScale.interpolate({inputRange:[0,1],outputRange:[1,.95]}) }
+            { perspective: (Platform.OS==='ios') ?
+                            this.state.animPerspective.interpolate({inputRange:[0,1],outputRange:[1,-850]}) :
+                            this.state.animPerspective.interpolate({inputRange:[0,1],outputRange:[1,850]}) },
+            { translateX: (Platform.OS==='ios') ?
+                            this.state.animTranslateX.interpolate({inputRange:[0,1],outputRange:[0,Dimensions.get("window").width*.3]}) :
+                            this.state.animTranslateX.interpolate({inputRange:[0,1],outputRange:[0,Dimensions.get("window").width*.3]}) },
+            { rotateY: (Platform.OS==='ios') ?
+                            this.state.animRotateY.interpolate({inputRange:[0,.3,1],outputRange:["0deg","0deg","60deg"]}) :
+                            this.state.animRotateY.interpolate({inputRange:[0,.3,1],outputRange:["0deg","0deg","-60deg"]}) },
+            { scale: (Platform.OS==='ios') ?
+                            this.state.animScale.interpolate({inputRange:[0,1],outputRange:[1,.95]}) :
+                            this.state.animScale.interpolate({inputRange:[0,1],outputRange:[1,.95]}) }
           ],zIndex:(this.state.bringFront?-1:3)}]}>
           {this.renderFront()}
         </Animated.View>
