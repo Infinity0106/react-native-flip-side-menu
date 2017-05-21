@@ -1,4 +1,4 @@
 # react-native-flip-side-menu
 
 ## GIF
-![](http://gph.is/2pYMcHa)
+![](https://media.giphy.com/media/l4FGDOF0mBERqxDwI/giphy.gif)
